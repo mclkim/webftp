@@ -15,7 +15,6 @@ git clone jstree & plupload
 ```
 git submodule update --init --recursive
 ```
-
 config/config.php
 ```
 <?php
