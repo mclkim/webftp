@@ -1,5 +1,8 @@
 # webftp
 webftp
+
 ```
-composer require dg/ftp-php
+git clone git@github.com:mclkim/webftp.git
+cd webftp
+composer update
 ```
