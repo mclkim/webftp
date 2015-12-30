@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{name} :: {control}</title>
+<link rel="stylesheet" href="{jquery.mobile.css}" />
+<link rel="stylesheet" href="_template/mobile/assets/css/jqm-docs.css" />
+<script src="{jquery.js}"></script>
+<script src="{jquery.mobile.js}"></script>
+<script src="_template/mobile/assets/js/jqm-docs.js"></script>
+<script src="_template/mobile/qhard.js"></script>
+</head>
+
+<body>
+	<!-- start page -->
+	<!--{?type-interior}-->	
+	<div data-role="page" class="type-interior">
+	<!--{:}-->
+	<div data-role="page">	
+	<!--{/}-->	
+		<!-- header -->
+		{#header}
+		<!-- /header -->
+
+		<!-- content -->
+		{#content}
+		<!-- /content -->
+
+		<!-- footer -->
+		{#footer}
+		<!-- /footer -->
+	</div>
+</body>
+</html>

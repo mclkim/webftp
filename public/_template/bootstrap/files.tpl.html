@@ -1,0 +1,337 @@
+<style>
+.btn-default {
+    background-color: #fff;
+    border-color: #ccc;
+    border-radius: 5px !important;
+    color: #333;
+    margin-bottom: 5px;
+    margin-left: 3px !important;
+}
+.btn_pop {
+	 background-color: #428bca;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: -17px;
+    z-index: 11;
+	min-width: 40px;
+}
+@media (max-width: 768px){
+	.col-md-2,
+	.col_mid_02 {
+		display:none !important;
+	}
+	.table-responsive {
+
+	overflow-y: hidden;
+	overflow-x: hidden;
+
+	}
+	.btn-group02 {
+	display: block !important;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background-color: #f5f5f5;
+	width: 100%;
+	text-align: center;
+	padding: 10px 0;
+	}
+}
+</style>
+
+<script>
+$(document).ready(function(){
+	$( ".btn-default" ).hover(
+	  function() {
+		$( this ).find("div").stop().fadeIn();
+	  }, function() {
+		$( this ).find("div").stop().fadeOut();
+	  }
+	);
+});
+</script>
+
+<!-- hidden form -->
+<form id="hiddenForm" name="hiddenForm">
+	<input type='hidden' name='dir' id='dir' value='{=directory}'>
+	<input type='hidden' name='path' id='path' value='{=path}'>
+	<input type='hidden' name='current' id='current' value='{=current}'>
+</form>
+<!-- //hidden form -->
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+		        <span class="sr-only">Toggle navigation</span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+		        <span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href=".">{C.PROGRAM_NAME}</a>
+		</div>
+
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome,{_SESSION.user.username}<span class="caret"></span></a>
+	              <ul class="dropdown-menu" role="menu">
+					<li><a href="#" id="uploadBtn">Upload</a></li>
+					<li><a href="#" id="newBtn">New</a></li>
+	                <li class="divider"></li>
+					<li><a href="#" id="downloadBtn">Download</a></li>
+					<li><a href="#" id="moveBtn">Move</a></li>
+					<li><a href="#" id="renameBtn">Rename</a></li>
+					<li><a href="#" id="removeBtn">Delete</a></li>
+					<li><a href="#" id="zipBtn">Zip</a></li>					
+					<li class="divider"></li>
+					<li><a href="#" id="trashBtn">Trash</a></li>
+					<li><a href="?logout">Logout</a></li>
+	              </ul>
+				</li>
+              </ul>
+			<form class="navbar-form navbar-right" onsubmit="return false;">
+				<input type="text" id="search" class="form-control" placeholder="Search...">
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid">
+	<div class="row row-offcanvas row-offcanvas-left"> 
+		<div class="col-sm-3 col-md-2 sidebar">
+			<div class="btn-group">
+				<button type="button" class="btn btn-default" data-toggle="modal" id="uploadBtn">
+				<span class="glyphicon glyphicon-cloud-upload"></span>
+				<div style="display:none;" class="btn_pop">업로드</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="newBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				<div style="display:none;" class="btn_pop">새폴더</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="renameBtn">
+				<span class="glyphicon glyphicon-edit"></span>
+				<div style="display:none;" class="btn_pop">수정하기</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="removeBtn">
+				<span class="glyphicon glyphicon-minus"></span>
+				<div style="display:none;" class="btn_pop">삭제</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="moveBtn">
+				<span class="glyphicon glyphicon-transfer"></span>
+				<div style="display:none;" class="btn_pop">이동</div>
+				</button>
+{?false} 				
+				<button type="button" class="btn btn-default" data-toggle="modal" id="shortUrlBtn">
+				<span class="glyphicon glyphicon-magnet"></span>
+				<div style="display:none;" class="btn_pop">파일정보</div>
+				</button>
+{/}			
+			</div>
+			<p>
+			<ul class="nav nav-pills nav-stacked">
+			<!--{?"" == path || "/" == path}-->
+			<!--{?"" == directory || "/" == directory}-->
+				<li class="active">
+				<a href="?qfiles&dir=&path=">Home</a>
+				</li>
+			<!--{:}-->
+				<li>
+				<a href="?qfiles&dir=&path=">Home</a>
+				</li>
+			<!--{/}-->
+			<!--{/}-->
+			</ul>
+			<ul class="nav nav-pills nav-stacked">
+				<!--{@p_folder}-->
+				<!--{?.name == directory}-->
+				<li class="active"><a href="?qfiles&dir={=urlencode(.name)}&path={=urlencode(path)}">{.name}<span
+						class="badge pull-right">{.files_inside-2}</span></a></li>
+				<!--{:}-->
+				<li><a href="?qfiles&dir={=urlencode(.name)}&path={=urlencode(path)}">{.name}<span
+						class="badge pull-right">{.files_inside-2}</span></a></li>
+				<!--{/}-->
+				<!--{/}-->
+			</ul>
+			<ul class="nav nav-pills nav-stacked">
+			<!--{?".trash" == directory}-->
+				<li class="active"><a href="?qfiles&dir=.trash&path={=urlencode(path)}">휴지통</a>	</li>
+			<!--{:}-->
+				<li><a href="?qfiles&dir=.trash&path={=urlencode(path)}">휴지통</a></li>
+			<!--{/}-->
+			</ul>
+		</div>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<ol class="breadcrumb">
+			<!--{@breadcrumb}-->
+			<!--{?.dir == directory}-->
+			<li class="active">{.dir}</li>
+			<!--{:}-->
+			<li><a href="?qfiles&dir={=urlencode(.dir)}&path={=urlencode(.path)}">{.content}</a></li>
+			<!--{/}-->
+			<!--{/}-->
+			</ol>
+			<div class="table-responsive">
+				<table class="table table-striped sortable">
+					<thead>
+						<tr>
+							<th scope='col' id='cb' class='manage-column column-cb check-column sorttable_nosort ' style=""><input id="checkAll" type="checkbox" /></th>
+							<th class="col-md-7">이름</th>
+							<th class="col-md-1 text-right">크기</th>
+							<th class="col-md-2">유형</th>
+							<th class="col-md-2">수정한 날짜</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!--{?false && full_path != '/' && full_path != '.'}-->
+						<tr>
+							<td></td>
+							<td><a href="?qfiles&dir=..&path={=urlencode(full_path)}"><img src="{ExtPath}/folder.gif" alt=".." class="ui-li-icon">..</a></td>
+							<td></td>
+							<td class="col_mid_02">&nbsp;상위폴더&nbsp</td>
+							<td class="col_mid_02"></td>
+						</tr>
+						<!--{/}-->
+						<!--{@folder}-->
+						<tr>
+							<td><input id="folder-select-{.index_}" type="checkbox" value="{=.name}" name="folderchk[]"></td>
+							<td><a href="?qfiles&dir={=urlencode(.name)}&path={=urlencode(full_path)}"><img src="{ExtPath}/folder.gif" alt="{.name}" class="ui-li-icon">{.name}</a></td>
+							<td></td>
+							<td class="col_mid_02">&nbsp;파일폴더&nbsp;</td>
+							<td class="col_mid_02">{=date("y-m-d h:i A",.stamp)}</td>
+						</tr>
+						<!--{/}-->
+
+						<!--{@files}-->
+						<tr>
+							<td filePath="{?.path != ''}{.path}{:}{path}{/}/{directory}"><input id="file-select-{.index_}" type="checkbox" value="{.base64}" name="filechk[]"></td>
+							<!--{?.path != ''}-->
+							<td><a href="javascript:Download('{directory}','{.path}','{.base64}')"><img src="{ExtPath}/{.type}.gif" alt="{.name}" class="ui-li-icon">{.name}</a></td>
+							<!--{:}-->
+							<td><a href="javascript:Download('{directory}','{path}','{.base64}')"><img src="{ExtPath}/{.type}.gif" alt="{.name}" class="ui-li-icon">{.name}</a></td>
+							<!--{/}-->
+							<td class='text-right'>{=bytesize(.size,2)}</td>
+							<td class="col_mid_02">{=strtoupper(.ext)}&nbsp;파일</td>
+							<td class="col_mid_02">{=date("y-m-d h:i A",.stamp)}</td>
+						</tr>
+						<!--{/}-->
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="uploadModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div> <!-- /.modal-content -->
+   </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" id="newModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div> <!-- /.modal-content -->
+   </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" id="renameModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div> <!-- /.modal-content -->
+   </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" id="moveModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div> <!-- /.modal-content -->
+   </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+<!-- Modal -->
+<div class="modal fade" id="zipModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+        </div> <!-- /.modal-content -->
+   </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+{?false}
+<!-- Modal -->
+<div class="modal fade" id="shortUrlModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div id="form-content">
+				<div class="modal-header">
+					<a class="close" data-dismiss="modal">×</a>
+					<h3>파일정보</h3>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm-6 col-md-3">
+							<a href="#" class="thumbnail">
+								<img src="#" alt="shortUrl">
+							</a>
+						</div>
+						<div class="col-sm-6 col-md-9 thumbnailCmt"></div>
+						<div class="col-sm-6 col-md-12">
+							<div class="col-sm-6 col-md-6 qrcode_wd">
+								<a href="#">
+									<img width="103" height="27" src="/_image/mypage/pop_web.gif" alt="웹용 다운로드" title="웹용 다운로드">
+								</a>
+							</div>
+							<div class="col-sm-6 col-md-6 qrcode_print">
+								<a href="#">
+									<img width="103" height="27" src="/_image/mypage/pop_print.gif" alt="웹용 다운로드" title="웹용 다운로드">
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				<!-- -->
+				</div>
+			</div>
+		</div> <!-- /.modal-content -->
+	</div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+{/}
+<div class="btn-group02" style="display:none;">
+<div class="btn-group">
+				<button type="button" class="btn btn-default" data-toggle="modal" id="uploadBtn">
+				<span class="glyphicon glyphicon-cloud-upload"></span>
+				<div style="display:none;" class="btn_pop">업로드</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="newBtn">
+				<span class="glyphicon glyphicon-plus"></span>
+				<div style="display:none;" class="btn_pop">새폴더</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="renameBtn">
+				<span class="glyphicon glyphicon-edit"></span>
+				<div style="display:none;" class="btn_pop">수정하기</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="removeBtn">
+				<span class="glyphicon glyphicon-minus"></span>
+				<div style="display:none;" class="btn_pop">삭제</div>
+				</button>
+				<button type="button" class="btn btn-default" data-toggle="modal" id="moveBtn">
+				<span class="glyphicon glyphicon-transfer"></span>
+				<div style="display:none;" class="btn_pop">이동</div>
+				</button>
+{?false} 				
+				<button type="button" class="btn btn-default" data-toggle="modal" id="shortUrlBtn">
+				<span class="glyphicon glyphicon-magnet"></span>
+				<div style="display:none;" class="btn_pop">파일정보</div>
+				</button>
+{/}			
+			</div>
+</div>

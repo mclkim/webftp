@@ -1,0 +1,60 @@
+﻿<div data-role="content">
+
+	<div class="content-primary">
+		<ul data-role="listview" data-inset="true" data-count-theme="b">
+			<li data-role="list-divider">Directories: {folder_count} /
+			&nbsp;{=bytesize(folder_size,2)}&nbsp;, Files: {files_count} /
+			&nbsp;{=bytesize(files_size,2)}</li>
+			<!--{?full_path != '/' && full_path != '.'}-->
+			<li><a
+				href="?qfiles&dir=..&path={=urlencode(full_path)}"
+				data-transition="slide"><img src="{ExtPath}/folder.gif" alt=".."
+					class="ui-li-icon">..</a></li>
+			<!--{/}-->
+
+			<!--{@folder}-->
+			<li><a
+				href="?qfiles&dir={=urlencode(.name)}&path={=urlencode(full_path)}"
+				data-transition="slide"><img src="{ExtPath}/folder.gif"
+					alt="{.name}" class="ui-li-icon">{.name}<span
+					class="ui-li-count">{.files_inside-2}</span>
+					<p>{=date("Y-m-d h:i A",.stamp)}</p> </a></li>
+			<!--{/}-->
+
+			<!--{@files}-->
+			<!--{?.path != ''}-->
+			<li><a href="javascript:Download('{directory}','{.path}','{.base64}')"><img src="{ExtPath}/{.type}.gif" alt="{.name}" class="ui-li-icon">{.name}<p>{=date("Y-m-d h:i A",.stamp)}&nbsp;&nbsp;<font color=blue>{=bytesize(.size,2)}</font>&nbsp;</p></a></li>
+			<!--{:}-->
+			<li><a href="javascript:Download('{directory}','{path}','{.base64}')"><img src="{ExtPath}/{.type}.gif" alt="{.name}" class="ui-li-icon">{.name}<p>{=date("Y-m-d h:i A",.stamp)}&nbsp;&nbsp;<font color=blue>{=bytesize(.size,2)}</font>&nbsp;</p></a></li>
+			<!--{/}-->
+			<!--{/}-->
+		</ul>
+	</div>
+	<!--/content-primary -->
+
+	<div class="content-secondary">
+		<div data-role="collapsible" data-collapsed="true" data-theme="b"
+			data-content-theme="d">
+
+			<h3>More in this section</h3>
+
+			<ul data-role="listview" data-theme="a" data-inset="true" data-divider-theme="b" data-count-theme="b">
+				<li data-role="list-divider">Folder List</li>
+				<!--{@p_folder}-->
+				<!--{?.name == directory}-->
+				<li data-theme="b">
+					<!--{:}-->
+				<li>
+					<!--{/}--> <a
+					href="?qfiles&dir={=urlencode(.name)}&path={=urlencode(path)}"
+					data-transition="slide"><img src="{ExtPath}/folder.gif"
+						alt="{.name}" class="ui-li-icon">{.name}<span
+						class="ui-li-count">{.files_inside-2}</span>
+						<p>{=date("Y-m-d h:i A",.stamp)}</p> </a>
+				</li>
+				<!--{/}-->
+			</ul>
+		</div>
+	</div>
+	<!--/content-secondary -->
+</div>

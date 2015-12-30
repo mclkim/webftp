@@ -6,3 +6,5 @@
 .settings
 composer.lock
 vendor
+**/_compile/**
+/tmp/**
