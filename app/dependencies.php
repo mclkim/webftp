@@ -5,12 +5,12 @@ $container = $app->getContainer ();
 // -----------------------------------------------------------------------------
 // Service providers & factories
 // -----------------------------------------------------------------------------
+if (! file_exists ( $container ['settings'] ['configuration'] )) {
+	exit ( 'The configuration file does not exist.' );
+}
 
 // https://github.com/hassankhan/config
 $container ['config'] = function ($c) {
-	if (! file_exists ( $c ['settings'] ['configuration'] )) {
-		exit ( 'The configuration file does not exist.' );
-	}
 	return new \Noodlehaus\Config ( [ 
 			$c ['settings'] ['configuration'] 
 	] );
@@ -23,23 +23,9 @@ $container ['template'] = function ($c) {
 	return $tpl;
 };
 
-// https://github.com/usmanhalalit/pixie
-$container ['Pixie'] = function ($c) {
-	return new \Pixie\Connection ( 'mysql', $c ['config']->get ( 'db' ), 'QB' );
-};
-
-// KLogger: Simple Logging for PHP
-// https://github.com/katzgrau/KLogger
-// $container ['logger'] = function ($c) {
-// 	$logger = new Kaiser\Manager\LogManager ( __DIR__ . '/../logs' );
-// 	return $logger;
-// };
-
 // session
 $container ['session'] = function ($c) {
 	$session = new Kaiser\Session\FileSession ( __DIR__ . '/../tmp' );
-	// http://sir.co.kr/cm_free/756649
-	// $session = new Kaiser\Session\DBSession ( $c ['Pixie'] );
 	$session->start_session ();
 	return $session;
 };
@@ -59,4 +45,3 @@ $container ['ftp'] = function ($c) {
 	$ftp->pasv ( $c ['config']->get ( 'ftp.passive' ) );
 	return $ftp;
 };
-

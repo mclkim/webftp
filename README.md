@@ -16,12 +16,30 @@ git clone jstree & plupload
 git submodule update --init --recursive
 ```
 
-OR
+config/config.php
 ```
-rm -r public/plugins/jstree
-git submodule add https://github.com/vakata/jstree.git public/plugins/jstree
-
-rm -r public/plugins/plupload
-git submodule add https://github.com/moxiecode/plupload.git public/plugins/plupload
+<?php
+return [
+		// ftp settings
+		'ftp' => [ 
+				'scheme' => 'ftp',
+				'host' => 'localhost',
+				'port' => 21,
+				'user' => '',
+				'pass' => '',
+				'path' => '/',
+				'timeout' => 90,
+				'passive' => true 
+		],
+		
+		// plupload
+		'plupload' => [ 
+				'chunk_size' => '1mb',
+				'max_file_size' => '2gb',
+				'max_file_count' => 20,
+				'default_expire' => 365,
+				'default_size' => 100 
+		]
+		
+];
 ```
-
