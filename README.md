@@ -11,7 +11,7 @@ cd webftp
 composer update
 ```
 
-git clone jstree && plupload 
+git clone jstree & plupload 
 ```
 git submodule update --init --recursive
 ```
