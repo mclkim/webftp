@@ -15,13 +15,3 @@ git clone jstree & plupload
 ```
 git submodule update --init --recursive
 ```
-
-OR
-```
-rm -r public/plugins/jstree
-git submodule add https://github.com/vakata/jstree.git public/plugins/jstree
-
-rm -r public/plugins/plupload
-git submodule add https://github.com/moxiecode/plupload.git public/plugins/plupload
-```
-
