@@ -16,7 +16,7 @@ git clone jstree & plupload
 git submodule update --init --recursive
 ```
 
-or
+OR
 ```
 rm -r public/plugins/jstree
 git submodule add https://github.com/vakata/jstree.git public/plugins/jstree
