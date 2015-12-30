@@ -8,3 +8,5 @@ composer.lock
 vendor
 **/_compile/**
 /tmp/**
+!robots.txt
+/config/config.php

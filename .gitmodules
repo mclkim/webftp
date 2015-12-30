@@ -1,0 +1,6 @@
+[submodule "public/plugins/jstree"]
+	path = public/plugins/jstree
+	url = https://github.com/vakata/jstree.git
+[submodule "public/plugins/plupload"]
+	path = public/plugins/plupload
+	url = https://github.com/moxiecode/plupload.git

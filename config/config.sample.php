@@ -2,29 +2,35 @@
 return [
 		// db settings
 		'db' => [ 
-				'mysql' => [ 
-						'host' => '127.0.0.1',
-						'port' => 3306,
-						'dbname' => 'mysql',
-						'username' => 'root',
-						'password' => 'root1234' 
-				]
-		],
-		
-		// ftp settings
-		'ftp' => [ 
-				'type' => 'ftp',
-				'host' => '127.0.0.1',
-				'port' => 21,
+				'driver' => 'mysql', // Db driver
+				'host' => 'localhost',
+				'port' => 3306,
+				'database' => 'dbname',
 				'username' => 'username',
 				'password' => 'password',
+				'charset' => 'utf8', // Optional
+				'collation' => 'utf8_unicode_ci', // Optional
+		], 
+		   
+		// ftp settings
+		'ftp' => [ 
+				'scheme' => 'ftp',
+				'host' => 'localhost',
+				'port' => 21,
+				'user' => '',
+				'pass' => '',
+				'path' => '/',
 				'timeout' => 90,
 				'passive' => true 
 		],
 		
-		// monolog settings
-		'logger' => [ 
-				'name' => 'app',
-				'path' => __DIR__ . '/../log/app-' . date ( 'Y-m-d' ) . '.log' 
-		] 
+		// plupload[http://plupload.org/]
+		'plupload' => [ 
+				'chunk_size' => '1mb',
+				'max_file_size' => '2gb',
+				'max_file_count' => 20,
+				'default_expire' => 365,
+				'default_size' => 100 
+		]
+		
 ];
