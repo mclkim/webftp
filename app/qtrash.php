@@ -1,6 +1,6 @@
 <?php
 use \Kaiser\Controller;
-class QTrash extends Controller {
+class qtrash extends Controller {
 	function execute() {
 	}
 	function trash() {
@@ -10,7 +10,7 @@ class QTrash extends Controller {
 		$trash = '/.trash';
 		
 		$model = new \App\Models\Ftp ( $ftp );
-		$model->deleteRecursive( $trash );
+		$model->deleteRecursive ( $trash );
 		$model->mkdir ( '/', $trash );
 		
 		echo json_encode ( array (

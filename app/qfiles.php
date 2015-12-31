@@ -7,7 +7,7 @@ class qfiles extends Controller {
 		$tpl = $this->container->get ( 'template' );
 		$ftp = $this->container->get ( 'ftp' );
 		
-// 		var_dump($_SESSION);;
+		// var_dump($_SESSION);;
 		$dir = $this->getParameter ( 'dir', '/' );
 		$parent = $this->getParameter ( 'path', '/' );
 		$search = $this->getParameter ( 'search', '' );
@@ -29,15 +29,15 @@ class qfiles extends Controller {
 				'current' => $current,
 				'search' => $search 
 		) );
-
+		
 		$sortby = $request->cookie ( 'sortby', 'name' );
 		$sortorder = $request->cookie ( 'sortorder', 'ASC' );
-		/**		
-		$this->debug ( array (
-				'sortby' => $sortby,
-				'sortorder' => $sortorder 
-		) );
-		*/
+		/**
+		 * $this->debug ( array (
+		 * 'sortby' => $sortby,
+		 * 'sortorder' => $sortorder
+		 * ) );
+		 */
 		$model = new \App\Models\Ftp ( $ftp );
 		$p_folder = $model->getFolder ( $parent, $sortby, $sortorder );
 		
@@ -95,4 +95,3 @@ class qfiles extends Controller {
 		return $chunks;
 	}
 }
-?>

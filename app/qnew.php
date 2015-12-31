@@ -1,6 +1,6 @@
 <?php
 use Kaiser\Controller;
-class QNew extends Controller {
+class qnew extends Controller {
 	function execute() {
 		$tpl = $this->container->get ( 'template' );
 		
@@ -35,4 +35,3 @@ class QNew extends Controller {
 		$model->mkdir ( $current, $newname );
 	}
 }
-?>

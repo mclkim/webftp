@@ -63,4 +63,3 @@ class QDownload extends Controller {
 		$fileDownload->sendDownload ( $zipfile );
 	}
 }
-?>

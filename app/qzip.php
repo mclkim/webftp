@@ -1,6 +1,6 @@
 <?php
 use Kaiser\Controller;
-class QZip extends Controller {
+class qzip extends Controller {
 	function execute() {
 		$tpl = $this->container->get ( 'template' );
 				
@@ -49,4 +49,3 @@ class QZip extends Controller {
 		$this->debug ( $upfile );
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 use \Kaiser\Controller;
-class QMove extends Controller {
+class qmove extends Controller {
 	function execute() {
 		$settings = $this->container->get ( 'settings' );
 		$tpl = $this->container->get ( 'template' );
@@ -58,4 +58,3 @@ class QMove extends Controller {
 		$model->move ( $current, $folder, $file, $target );
 	}
 }
-?>

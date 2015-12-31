@@ -93,4 +93,3 @@ class qupload extends Controller {
 		}
 	}
 }
-?>

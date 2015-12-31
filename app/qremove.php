@@ -1,6 +1,6 @@
 <?php
 use Kaiser\Controller;
-class Qremove extends Controller {
+class qremove extends Controller {
 	function execute() {
 		$ftp = $this->container->get ( 'ftp' );
 		
@@ -35,4 +35,3 @@ class Qremove extends Controller {
 		}
 	}
 }
-?>

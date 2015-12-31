@@ -1,6 +1,6 @@
 <?php
 use \Kaiser\Controller;
-class QRename extends Controller {
+class qrename extends Controller {
 	function execute() {
 		$tpl = $this->container->get ( 'template' );
 		
@@ -39,4 +39,3 @@ class QRename extends Controller {
 		$model->rename ( $current, $folder, $file, $rename );
 	}
 }
-?>
