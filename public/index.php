@@ -8,7 +8,7 @@
  * production : 화면에도 에러로그에도 출력하지 않는다.
  * -------------------------------------------------------------------
  */
-define ( 'ENVIRONMENT', 'development' );
+define ( 'ENVIRONMENT', 'production' );
 
 /**
  * -------------------------------------------------------------------
@@ -31,7 +31,7 @@ date_default_timezone_set ( 'Asia/Seoul' ); // 한국시간(timezone)설정
  * -------------------------------------------------------------------
  */
 $loader = require_once BASE_PATH . '/vendor/autoload.php';
-$loader->add ( 'Kaiser', BASE_PATH . '/vendor/mclkim/kaiser/kaiser' ); // Kaiser framework
+// $loader->add ( 'Kaiser', BASE_PATH . '/vendor/mclkim/kaiser/kaiser' ); // Kaiser framework
 $loader->addPsr4 ( 'App\\', BASE_PATH . '/app' ); // Application Controller
 $loader->addClassMap ( [ 
 		'Template_' => BASE_PATH . '/vendor/mclkim/kaiser/kaiser/Template_/Template_.class.php', // 언더바 템플릿 경로
@@ -41,22 +41,20 @@ $loader->addClassMap ( [
 
 /**
  * -------------------------------------------------------------------
- * Instantiate the app
- * -------------------------------------------------------------------
- */
-$settings = require_once BASE_PATH . '/app/settings.php';
-
-$app = new \Kaiser\App ( $settings );
-$app->setAppDir ( [ 
-		BASE_PATH . '/app' 
-] );
-
-/**
- * -------------------------------------------------------------------
  * Set up dependencies
  * -------------------------------------------------------------------
  */
 require_once BASE_PATH . '/app/dependencies.php';
+
+/**
+ * -------------------------------------------------------------------
+ * Instantiate the app
+ * -------------------------------------------------------------------
+ */
+$app = new \Kaiser\App ( $container );
+$app->setAppDir ( [
+		BASE_PATH . '/app'
+] );
 
 /**
  * -------------------------------------------------------------------

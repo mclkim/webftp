@@ -223,7 +223,8 @@ class Ftp extends FtpManager {
 			// 폴더
 			if (is_array ( $_Folder )) {
 				foreach ( $_Folder as $k => $v ) {
-					$this->FTP->recursiveDelete ( rtrim ( $path, '/' ) . '/' . $v );
+					// $this->FTP->deleteRecursive ( rtrim ( $path, '/' ) . '/' . $v );
+					$this->deleteRecursive ( rtrim ( $path, '/' ) . '/' . $v );
 				}
 			}
 			
@@ -241,19 +242,19 @@ class Ftp extends FtpManager {
 		return true;
 	}
 	function deleteRecursive($path) {
-		// if ($this->FTP->isDir ( $path ) && $this->FTP->chdir ( $path )) {
-		// $result = $this->_lsFiles ( $path );
-		// foreach ( $result as $file ) {
-		// $this->FTP->delete ( $path . '/' . $file ['name'] );
-		// }
-		// $result = $this->_lsDirs ( $path );
-		// foreach ( $result as $dir ) {
-		// $directory = rtrim ( $path, '/' ) . '/' . $dir ['name'];
-		// $this->deleteRecursive ( $directory );
-		// }
-		// }
-		if ($this->FTP->isDir ( $path ))
-			$this->FTP->recursiveDelete ( $path );
+		if ($this->FTP->isDir ( $path ) && $this->FTP->chdir ( $path )) {
+			$result = $this->_lsFiles ( $path );
+			foreach ( $result as $file ) {
+				$this->FTP->delete ( $path . '/' . $file ['name'] );
+			}
+			$result = $this->_lsDirs ( $path );
+			foreach ( $result as $dir ) {
+				$directory = rtrim ( $path, '/' ) . '/' . $dir ['name'];
+				$this->deleteRecursive ( $directory );
+			}
+		}
+		if ($this->FTP->isDir ( $path ) == true)
+			$this->FTP->rmdir ( $path );
 	}
 	function zip($path, $folder, $file, $destination, $overwrite = true) {
 		if (class_exists ( 'ZipArchive' ) == false) {

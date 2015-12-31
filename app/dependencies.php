@@ -1,6 +1,9 @@
 <?php
 // DIC configuration
-$container = $app->getContainer ();
+// $container = $app->getContainer ();
+$container = new \Kaiser\Container ();
+
+$container ['settings'] = require_once BASE_PATH . '/app/settings.php';
 
 // -----------------------------------------------------------------------------
 // Service providers & factories
@@ -21,6 +24,12 @@ $container ['template'] = function ($c) {
 	$tpl = new \Template_ ();
 	$tpl->skin = 'bootstrap';
 	return $tpl;
+};
+
+// logger
+$container ['logger'] = function ($c) {
+	$logger = new Kaiser\Manager\LogManager( __DIR__ . '/../logs' );
+	return $logger;
 };
 
 // session
