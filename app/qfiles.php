@@ -7,17 +7,19 @@ class qfiles extends Controller {
 		$tpl = $this->container->get ( 'template' );
 		$ftp = $this->container->get ( 'ftp' );
 		
-		// var_dump($_SESSION);;
 		$dir = $this->getParameter ( 'dir', '/' );
 		$parent = $this->getParameter ( 'path', '/' );
 		$search = $this->getParameter ( 'search', '' );
+		
+		$trash = '/.trash';
+		$trash = $this->container->get('config')->get( 'trash.path' );		
 		
 		// TODO::좋은 방법이 있을 텐데..
 		if ($dir == '..') {
 			$current = str_replace ( '\\', '/', dirname ( $parent ) );
 			$parent = str_replace ( '\\', '/', dirname ( $current ) );
-		} else if ($dir == '.trash') {
-			$current = '/.trash';
+		} else if ($dir == $trash) {
+			$current = $trash;
 			$parent = '';
 		} else {
 			$current = rtrim ( $parent, '/' ) . '/' . ltrim ( $dir, '/' );

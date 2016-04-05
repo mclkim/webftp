@@ -8,6 +8,7 @@ class qtrash extends Controller {
 		
 		// 휴지통 경로(환경변수로 설정할까?)
 		$trash = '/.trash';
+		$trash = $this->container->get('config')->get( 'trash.path' );
 		
 		$model = new \App\Models\Ftp ( $ftp );
 		$model->deleteRecursive ( $trash );

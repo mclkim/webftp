@@ -26,6 +26,7 @@ return [
 		
 		// plupload[http://plupload.org/]
 		'plupload' => [ 
+				'file_data_name' => 'file',
 				'chunk_size' => '1mb',
 				'max_file_size' => '2gb',
 				'max_file_count' => 20,

@@ -28,7 +28,7 @@ $container ['template'] = function ($c) {
 
 // logger
 $container ['logger'] = function ($c) {
-	$logger = new Kaiser\Manager\LogManager( __DIR__ . '/../logs' );
+	$logger = new Kaiser\Manager\LogManager ( __DIR__ . '/../logs' );
 	return $logger;
 };
 
@@ -49,8 +49,14 @@ $container ['ftp'] = function ($c) {
 	if (! empty ( $c ['config']->get ( 'ftp.user' ) ) && ! empty ( $c ['config']->get ( 'ftp.pass' ) )) {
 		// Login with username and password
 		$ftp->login ( $c ['config']->get ( 'ftp.user' ), $c ['config']->get ( 'ftp.pass' ) );
+	}	
+
+	//
+	elseif (! empty ( $_SESSION ['user'] ['username'] ) && ! empty ( $_SESSION ['user'] ['password'] )) {
+		$ftp->login ( $_SESSION ['user'] ['username'], $_SESSION ['user'] ['password'] );
 	}
 	
 	$ftp->pasv ( $c ['config']->get ( 'ftp.passive' ) );
+	
 	return $ftp;
 };

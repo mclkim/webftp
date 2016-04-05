@@ -1,5 +1,7 @@
 <?php
 use \Kaiser\Controller;
+use Kaiser\Exception\AjaxException;
+use \Kaiser\Response;
 class login extends Controller {
 	protected function requireLogin() {
 		return false;
@@ -34,29 +36,28 @@ class login extends Controller {
 		) );
 		
 		$tpl->print_ ( 'index' );
+		flush ();
 	}
 	function auth() {
-		$ftp = $this->container->get ( 'ftp' );
 		$returnURI = $this->getParameter ( 'returnURI', $this->_defaultPage );
 		
 		if (($username = $this->getParameter ( 'user_id' )) == false) {
-			throw new \Kaiser\Exception\EchoException ( '아이디를 입력해 주세요.' );
+			throw new AjaxException ( '아이디를 입력해 주세요.' );
 		}
 		if (($password = $this->getParameter ( 'pass_wd' )) == false) {
-			throw new \Kaiser\Exception\EchoException ( '비밀번호를 입력해 주세요.' );
+			throw new AjaxException ( '비밀번호를 입력해 주세요.' );
 		}
 		
-		$model = new \App\Models\Ftp ( $ftp );
-
-		// 비밀번호 확인
-		if ($model->password_verify ( $username, $password ) == false) {
-			// throw new \Kaiser\Exception\LoginException ();
-			throw new \Kaiser\Exception\EchoException ( '아이디 또는 비밀번호가 일치하지 않습니다.' );
+		$this->debug ( $username );
+		
+		try {
+			$ftp = $this->container->get ( 'ftp' );
+			$ftp->login ( $username, $password );
+		} catch ( Exception $e ) {
+			throw new AjaxException ( '아이디 또는 비밀번호가 일치하지 않습니다.' );
 		}
 		
-		$this->debug($username);
-		$this->debug($password);
-		$this->debug($model->password_verify ( $username, $password ));
+		$this->debug ( $password );
 		
 		$_SESSION ['auth'] = true;
 		$_SESSION ['user'] = array (
@@ -64,8 +65,14 @@ class login extends Controller {
 				'password' => $password 
 		);
 		
-		$ret ['code'] = 1;
-		$ret ['value'] = rtrim ( $this->router ()->getBaseUrl ( true ), '/' ) . $returnURI;
-		echo json_encode ( $ret );
+		// $ret ['code'] = 1;
+		// $ret ['value'] = rtrim ( $this->router ()->getBaseUrl ( true ), '/' ) . $returnURI;
+		// echo json_encode ( $ret );
+		
+		$result = [ 
+				'X_OCTOBER_REDIRECT' => $returnURI,
+				'redirect' => rtrim ( $this->router ()->getBaseUrl ( true ), '/' ) . $returnURI 
+		];
+		return Response::getInstance ()->setContent ( $result );
 	}
 }

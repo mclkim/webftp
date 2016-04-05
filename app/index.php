@@ -9,6 +9,6 @@ class index extends Controller {
 		header ( "cache-control: must-revalidate" );
 		header ( "pragma: no-cache" );
 		
-		$this->router ()->redirect ( '?qfiles' );
+		$this->response ()->redirect ( '?qfiles' );
 	}
 }

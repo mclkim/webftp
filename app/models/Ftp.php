@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
-use Kaiser\Manager\FtpManager;
+// use Kaiser\Manager\FtpManager;
+use App\Models\FtpManager;
 
 class Ftp extends FtpManager {
 	function __construct($ftp) {
 		parent::__construct ( $ftp );
 		
 		// Login with username and password
-		if (! empty ( $_SESSION ['user'] ['username'] ) && ! empty ( $_SESSION ['user'] ['password'] )) {
-			$ftp->login ( $_SESSION ['user'] ['username'], $_SESSION ['user'] ['password'] );
-		}
+		// if (! empty ( $_SESSION ['user'] ['username'] ) && ! empty ( $_SESSION ['user'] ['password'] )) {
+		// $ftp->login ( $_SESSION ['user'] ['username'], $_SESSION ['user'] ['password'] );
+		// }
 	}
 	function password_verify($username, $password) {
 		if (empty ( $username ) || empty ( $password ))

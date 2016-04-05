@@ -26,16 +26,29 @@ define ( 'BASE_PATH', dirname ( ROOT_PATH ) );
 date_default_timezone_set ( 'Asia/Seoul' ); // 한국시간(timezone)설정
 
 /**
+ * |--------------------------------------------------------------------------
+ * | Register Core Helpers
+ * |--------------------------------------------------------------------------
+ * |
+ * | We cannot rely on Composer's load order when calculating the weight of
+ * | each package. This line ensures that the core global helpers are
+ * | always given priority one status.
+ * |
+ */
+$helperPath = BASE_PATH . '/vendor/mclkim/kaiser/src/Helpers.php';
+if (! file_exists ( $helperPath )) {
+	exit ( 'Missing vendor files, try running "composer install"' . PHP_EOL );
+}
+
+/**
  * -------------------------------------------------------------------
  * ClassLoader implements a PSR-0, PSR-4 and classmap class loader.
  * -------------------------------------------------------------------
  */
 $loader = require_once BASE_PATH . '/vendor/autoload.php';
-// $loader->add ( 'Kaiser', BASE_PATH . '/vendor/mclkim/kaiser/kaiser' ); // Kaiser framework
 $loader->addPsr4 ( 'App\\', BASE_PATH . '/app' ); // Application Controller
 $loader->addClassMap ( [ 
-		'Template_' => BASE_PATH . '/vendor/mclkim/kaiser/kaiser/Template_/Template_.class.php', // 언더바 템플릿 경로
-		'PluploadHandler' => BASE_PATH . '/vendor/mclkim/kaiser/kaiser/Plupload/PluploadHandler.php' 
+		'PluploadHandler' => BASE_PATH . '/vendor/mclkim/kaiser/src/Plupload/PluploadHandler.php' 
 ] // Plupload 경로
  );
 
@@ -52,6 +65,7 @@ require_once BASE_PATH . '/app/dependencies.php';
  * -------------------------------------------------------------------
  */
 $app = new \Kaiser\App ( $container );
+$app->setBasePath ( BASE_PATH );
 $app->setAppDir ( [
 		BASE_PATH . '/app'
 ] );

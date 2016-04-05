@@ -35,6 +35,8 @@
 use \Kaiser\Controller;
 class qupload extends Controller {
 	function execute() {
+		$this->debug ( $_GET );
+		
 		$config = $this->container->get ( 'config' );
 		$tpl = $this->container->get ( 'template' );
 		
@@ -62,6 +64,10 @@ class qupload extends Controller {
 	function ok() {
 	}
 	function upload() {
+		$this->debug ( $_GET );
+		$this->debug ( $_POST );
+		$this->debug ( $_FILES );
+		
 		$config = $this->container->get ( 'config' );
 		$ftp = $this->container->get ( 'ftp' );
 		
@@ -75,7 +81,7 @@ class qupload extends Controller {
 				'current' => $current 
 		) );
 		
-		$this->debug ( $_FILES ['file'] );
+		// $this->debug ( $_FILES ['file'] );
 		
 		$upload = new \Kaiser\Plupload ( $config->get ( 'plupload' ) );
 		
@@ -83,10 +89,7 @@ class qupload extends Controller {
 		$upload->cors_headers ();
 		
 		if (($file = $upload->getFiles ()) !== false) {
-			$this->debug ( $file );
-			
 			$model = new \App\Models\Ftp ( $ftp );
-			
 			$model->upload ( $current, $file );
 		} else {
 			$this->err ( $upload->get_error_message () );
